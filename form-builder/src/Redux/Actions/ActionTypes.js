@@ -1,0 +1,7 @@
+const FETCH_FORMS = {
+    LOAD : "FORMS_LOAD",
+    LOAD_SUCCESS : "FORMS_LOAD_SUCCESS",
+    LOAD_FAIL : "FORMS_LOAD_FAIL"
+}
+
+export { FETCH_FORMS }
