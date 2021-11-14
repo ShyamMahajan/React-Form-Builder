@@ -6,11 +6,12 @@ import { Radio, Space, Checkbox } from "antd";
 import { connect } from "react-redux";
 import { load_create_form } from "../../Redux/Actions/Actions"
 import AddQuestionModal from "./AddQuestionModal"
-import { getFormData } from "../../Apis";
+import { getFormData, updateForm } from "../../Apis";
 
 const MainForm = (props) => {
   const [formTitle, setFormTitle] = useState(undefined);
   const [Questions, setQuestion] = useState([]);
+  const [formData, setFormData] = useState({})
   const [modal,setModal] = useState(false);
   const toggleModal = ( ) => setModal(!modal)
 
@@ -24,6 +25,7 @@ const MainForm = (props) => {
         console.log("formData", res)
         setFormTitle(res.name)
         setQuestion(res.formData.questions)
+        setFormData(res)
       })
 
     }
@@ -37,19 +39,39 @@ const MainForm = (props) => {
 
   const onSubmitHandler = (e) => {
       e.preventDefault()
+
+      console.log("###formData", e.target.Q0.value)
+
       if(props.action === "fill"){
+        const responses = formData.responses;
+        const arr = []
+        Questions.map((question,index) => {
+          arr.push({
+            Q : index,
+            ans : e.target[`Q${index}`].value 
+          })
+        })
+        responses.push(arr)
+        const formDataApi = {
+          ...formData,
+          responses : responses
+        }
+        console.log("res###", formDataApi)
+        updateForm(formDataApi, formData.id).then(res => {
+          console.log("res###")
+        })
 
 
 
       }else{
-        const formData = {
+        const formDataApi = {
           "createdAt" : new Date().toISOString(),
           name : e.target.name.value,
           formData : {
             questions : Questions
           }
         }
-        props.createForm(formData)
+        props.createForm(formDataApi)
       }
   }
 
@@ -74,10 +96,10 @@ const MainForm = (props) => {
         </div>
         <div className="questions-box">
           {Questions.length > 0
-            ? Questions.map((question, index) => {
+            ? Questions.map((question, Qindex) => {
                 return (
-                  <div className="question-list" key={index*Math.random()}>
-                    <div className="question">{`${index + 1}. ${
+                  <div className="question-list" key={Qindex*Math.random()}>
+                    <div className="question">{`${Qindex + 1}. ${
                       question.Q
                     }`}</div>
                     <div className="options">
@@ -87,7 +109,7 @@ const MainForm = (props) => {
                             <Space direction="vertical">
                               {question.options.map((option, index) => {
                                 return (
-                                  <Radio key={index*Math.random()} disabled={props.action !== "fill"} value={index}>
+                                  <Radio id={`Q${Qindex}`} name={`Q${Qindex}`} key={index*Math.random()} disabled={props.action !== "fill"} value={option}>
                                     {option}
                                   </Radio>
                                 );
@@ -99,7 +121,7 @@ const MainForm = (props) => {
                             <Space direction="vertical">
                               {question.options.map((option, index) => {
                                 return (
-                                  <Checkbox disabled={props.action !== "fill"}  value={option}>
+                                  <Checkbox key={Qindex*Math.random()} id={`Q${Qindex}`} name={`Q${Qindex}`} disabled={props.action !== "fill"}  value={option}>
                                     {option}
                                   </Checkbox>
                                 );
@@ -109,8 +131,7 @@ const MainForm = (props) => {
                         )
                       ) : (
                         <textarea
-                          id="textarea"
-                          name="textarea"
+                        id={`Q${Qindex}`} name={`Q${Qindex}`}
                           rows="1"
                           disabled={props.action !== "fill"} 
                         ></textarea>

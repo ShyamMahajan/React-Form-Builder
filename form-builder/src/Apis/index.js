@@ -16,7 +16,7 @@ export const createForm = (data) => {
     }).catch(err => err)
 }
 
-export const createFormNext = (data, id) => {
+export const updateForm = (data, id) => {
     return axios.put(`${BaseUrl}/Forms/${id}`,data).then(res => {
         return res
     }).catch(err => err)
