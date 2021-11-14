@@ -1,6 +1,6 @@
 import { React, useState } from "react";
 import { Modal, ModalHeader, ModalBody, Button } from "reactstrap";
-import { Radio, Space, Input, Checkbox } from "antd";
+import { Radio, Space } from "antd";
 import { StyledWrapper } from "./AddQuestionModal.style";
 
 const AddQuestionModal = (props) => {
@@ -40,6 +40,7 @@ const AddQuestionModal = (props) => {
                 id="question"
                 disabled={props.action === "fill"}
                 placeholder="Question"
+                required
               />
             </div>
 

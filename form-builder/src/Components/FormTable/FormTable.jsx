@@ -3,10 +3,13 @@ import { TableBox, TopBar, SearchBar, ButtonText, TableStyles } from "./FormTabl
 import ReactTable from 'react-table-6';
 import { Button } from 'reactstrap';
 import { FaEye, FaTrash, FaEdit, FaPlus } from 'react-icons/fa';
+import swal from 'sweetalert'
+
 
 import 'react-table-6/react-table.css';
 import { connect } from 'react-redux';
 import { load_forms } from '../../Redux/Actions/Actions';
+import { deleteForm } from "../../Apis"
 const FormTable = (props) => {
 
 	const [ searchText, setSearchText ] = useState("");
@@ -43,7 +46,12 @@ const FormTable = (props) => {
 			className: 'text-center',
 			filterable: false,
 			sortable: false,
-			headerClassName: 'react-table-header-class'
+			headerClassName: 'react-table-header-class',
+			Cell : (CellProps) => {	
+				return <div>
+					<a href={`/form/${CellProps.original.id}`}>{CellProps.original.formUrl}</a>
+				</div>
+			}
 		},
 		{
 			Header: 'Action',
@@ -60,27 +68,17 @@ const FormTable = (props) => {
 							data-test = "view-button"
 							className="c-btn mr-10"
 							color="success"
-							onClick={(e) => props.history.push("/form/1", {id : Cellprops.original.id})}
+							onClick={(e) => props.history.push(`/forms/view/${Cellprops.original.id}`, {id : Cellprops.original.id})}
                             >
 							<div className="fs-12 medium-text">
 								<FaEye /> View
 							</div>
 						</Button>
 						<Button
-							data-test = "edit-button"
-							className="c-btn mr-10"
-							color="primary"
-							// onClick={() => formAction("edit",props.original)}
-                            >
-							<div className="fs-14 medium-text">
-								<FaEdit /> Edit
-							</div>
-						</Button>
-						<Button
 							data-test = "delete-button"
 							color="danger"
 							className="c-btn c-danger"
-							// onClick={() => userDeleteHandler(props.original.id)}
+							onClick={() => userDeleteHandler(Cellprops.original.id)}
                             >
 							<div className="fs-14 medium-text">
 								<FaTrash /> Delete
@@ -108,6 +106,27 @@ const FormTable = (props) => {
 			}
 		}
 	];
+
+	const userDeleteHandler = (id) => {
+		swal({
+			title: "Are you sure?",
+			text: "Once deleted, you will not be able to recover this record!",
+			icon: "warning",
+			buttons: true,
+			dangerMode: true
+		  }).then(willDelete => {
+			  if(willDelete){
+					
+					deleteForm(id).then(res => {
+					  swal("Deleted", {
+						  icon : "success"
+					  });
+					  props.LoadForms(`?search=${searchText}`)
+				  })
+			  }
+		  })
+
+	}
 
 	const formAction = (action,data) =>  {
 		if(action === "add"){

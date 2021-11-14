@@ -14,6 +14,7 @@ export const TopBar = styled.div`
   width: 50%;
   display: flex;
   flex-direction: row;
+  margin-bottom : 10px;
 `;
 export const SearchBar = styled.div`
   margin-right: 15px;

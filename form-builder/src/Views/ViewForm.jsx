@@ -1,9 +1,18 @@
-import React from "react"
+import axios from "axios"
+import React, { Fragment, useEffect } from "react"
+import Form  from "../Components/CreateForm/Form"
+import PageTitle from "../Components/PageTitle/PageTitle"
 
-const ViewForm = (props) => {
+const FormView = (props) => {
+    const {match} = props;
+    const id = match.params.id
+
     return (
-        <h1>ViewForm</h1>
+        <div style={{padding : "50px"}}>
+             <PageTitle title="View Form"></PageTitle>
+            <Form action="view" id={id}></Form>
+        </div>
     )
 }
 
-export default ViewForm
+export default FormView

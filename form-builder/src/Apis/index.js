@@ -27,3 +27,9 @@ export const getFormData = (id) => {
         return res.data
     }).catch(err => err)
 }
+
+export const deleteForm = (id) => {
+    return axios.delete(`${BaseUrl}/Forms/${id}`).then(res => {
+        return res.data
+    }).catch(err => err)
+}
