@@ -1,8 +1,13 @@
-import React from "react"
+import React, { Fragment } from "react"
+import Form  from "../Components/CreateForm/Form"
+import PageTitle from "../Components/PageTitle/PageTitle"
 
 const CreateForm = (props) => {
     return (
-        <h1>CreateForm</h1>
+        <Fragment>
+            <PageTitle title="Create Form"></PageTitle>
+            <Form action="edit"></Form>
+        </Fragment>
     )
 }
 

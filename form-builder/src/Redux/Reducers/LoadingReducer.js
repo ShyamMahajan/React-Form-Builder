@@ -1,7 +1,8 @@
-import { FETCH_FORMS } from "../Actions/ActionTypes"
+import { FETCH_FORMS, CREATE_FORM } from "../Actions/ActionTypes"
 
 const initialState = {
-    formsTable : false
+    formsTable : false,
+    createForm : false
 }
 
 const FormsReducer = (state = initialState,action) => {
@@ -23,6 +24,25 @@ const FormsReducer = (state = initialState,action) => {
             return {
                 ...state,
                 formsTable : false
+            }
+        }
+        case CREATE_FORM.LOAD : {
+            return {
+                ...state,
+                createForm : true
+            }
+        };
+        case CREATE_FORM.LOAD_SUCCESS : {
+            return {
+                ...state,
+                createForm : false
+            }
+        };
+        
+        case CREATE_FORM.LOAD_FAIL : {
+            return {
+                ...state,
+                createForm : false
             }
         }
         default : {

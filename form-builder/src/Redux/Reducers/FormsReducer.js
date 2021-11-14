@@ -1,4 +1,4 @@
-import { FETCH_FORMS } from "../Actions/ActionTypes"
+import { CREATE_FORM, FETCH_FORMS } from "../Actions/ActionTypes"
 
 
 const initialState = {
@@ -14,6 +14,10 @@ const FormsReducer = (state = initialState,action) => {
                 forms : action.forms
             }
         };
+
+        case CREATE_FORM.LOAD_SUCCESS : {
+            return state
+        }
 
         default : {
             return {

@@ -53,14 +53,14 @@ const FormTable = (props) => {
 			sortable: false,
 			headerClassName: 'react-table-header-class',
 			width: 300,
-			Cell: (props) => {
+			Cell: (Cellprops) => {
 				return (
 					<div className="">
 						<Button
 							data-test = "view-button"
 							className="c-btn mr-10"
 							color="success"
-							// onClick={() => showUserDetails(props.original.id)}
+							onClick={(e) => props.history.push("/form/1", {id : Cellprops.original.id})}
                             >
 							<div className="fs-12 medium-text">
 								<FaEye /> View
@@ -109,6 +109,12 @@ const FormTable = (props) => {
 		}
 	];
 
+	const formAction = (action,data) =>  {
+		if(action === "add"){
+			props.history.push("/forms/add")
+		}
+	}
+
     return <Fragment>
         <TableBox>
             <TopBar>
@@ -127,7 +133,7 @@ const FormTable = (props) => {
 							data-test = "add-button"
 							className="c-btn mr-10"
 							color="warning"
-							// onClick={() => formAction("add")}
+							onClick={() => formAction("add")}
                             >
 							<ButtonText className="fs-12 medium-text">
 								<FaPlus style = {{ paddingRight:"5px"}}/> Create Form

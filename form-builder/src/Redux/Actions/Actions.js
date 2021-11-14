@@ -1,4 +1,4 @@
-import { FETCH_FORMS } from "./ActionTypes"
+import { FETCH_FORMS, CREATE_FORM } from "./ActionTypes"
 
 const load_forms = (data) => {
     return {
@@ -21,4 +21,25 @@ const fetch_form_err = (error) => {
     }
 }
 
-export { load_forms, set_forms, fetch_form_err }
+const load_create_form = (data) => {
+    return {
+        type : CREATE_FORM.LOAD,
+        data : data
+    }
+}
+
+const  success_create_form = (forms) => {
+    return {
+        type : CREATE_FORM.LOAD_SUCCESS,
+        forms
+    }
+}
+
+const fail_create_form = (error) => {
+    return {
+        type : CREATE_FORM.LOAD_FAIL,
+        error
+    }
+}
+
+export { load_forms, set_forms, fetch_form_err, load_create_form, success_create_form, fail_create_form }
